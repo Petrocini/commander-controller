@@ -1,8 +1,14 @@
+import Head from "next/head"
 
 export default function Home() {
   return (
-    <div className={styles.container}>
-      <h1>Command controller</h1>
+    <>
+    <Head>
+      <title>Criativa Churros - Faça seu logn</title>
+    </Head>
+    <div>
+      <h1>Criativa Churros Gourmet</h1>
     </div>
+    </>
   )
 }
