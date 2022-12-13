@@ -33,19 +33,15 @@ const upload = multer(uploadConfig.upload("./tmp"));
 
 //-- ROTAS USER --
 router.post('/users', new CreateUserController().handle)
-
 router.post('/session', new AuthUserController().handle)
-
 router.get('/me', isAuthenticated,  new DetailuserController().handle )
 
 //-- ROTAS CATEGORY
 router.post('/category', isAuthenticated, new CreateCategoryController().handle )
-
 router.get('/category', isAuthenticated, new ListCategoryController().handle )
 
 //-- ROTAS PRODUCT
 router.post('/product', isAuthenticated, upload.single('file'), new CreateProductController().handle )
-
 router.get('/category/product', isAuthenticated, new ListByCategoryController().handle )
 
 //-- ROTAS ORDER
@@ -56,10 +52,10 @@ router.post('/order/add', isAuthenticated, new AddItemController().handle )
 router.delete('/order/remove', isAuthenticated, new RemoveItemController().handle )
 
 router.put('/order/send', isAuthenticated, new SendOrderController().handle )
+router.put('/order/finish', isAuthenticated, new FinishOrderController().handle )
 
 router.get('/orders', isAuthenticated, new ListOrdersController().handle )
 router.get('/order/detail', isAuthenticated, new DetailOrderController().handle )
 
-router.put('/order/finish', isAuthenticated, new FinishOrderController().handle )
 
 export { router }; 
