@@ -1,21 +1,20 @@
-import { Request, Response } from "express";
-import { CreateOrderService } from "../../services/order/CreateOrderService";
+import {Request, Response} from 'express'
+import { CreateOrderService } from '../../services/order/CreateOrderService'
 
-class CreateOrderController {
-    async handle(req: Request, res: Response) {
-        
-        const { table, name } = req.body
+class CreateOrderController{
+  async handle(req: Request, res: Response){
+    const { table, name } = req.body;
 
-        const createorderService = new CreateOrderService()
+    const createOrderService = new CreateOrderService();
 
-        const order = await createorderService.execute({ 
-            table, 
-            name 
-        })
+    const order = await createOrderService.execute({
+      table,
+      name,
+    });
 
-        return res.json(order)
+    return res.json(order);
 
-    }
+  }
 }
 
 export { CreateOrderController }
