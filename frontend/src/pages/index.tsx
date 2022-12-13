@@ -11,8 +11,10 @@ import logoImg from '../../public/logo.svg';
 import { Input } from '../components/ui/Input'
 import { Button } from '../components/ui/Button'
 import { AuthContext } from '../contexts/AuthContext';
-import { sign } from 'crypto';
 
+import { toast } from 'react-toastify'
+import { GetServerSideProps } from 'next';
+import { canSSRGuest } from '../utils/canSSRGuest';
 
 export default function Home() {
 
@@ -26,12 +28,21 @@ export default function Home() {
   async function  handleLogin(event: FormEvent) {
     event.preventDefault()
 
+    if (email === '' || password === '') {
+      toast.warning('Preencha todos os campos')
+      return
+    } 
+
+    setLoading(true)
+
     let data = {
       email,
       password
     }
 
     await signIn(data)
+
+    setLoading(false)
   }
 
   return (
@@ -75,3 +86,11 @@ export default function Home() {
     </>
   )
 }
+
+export const getServerSideProps = canSSRGuest(async (ctx) => {
+  return {
+    props: {
+
+    }
+  }
+})
