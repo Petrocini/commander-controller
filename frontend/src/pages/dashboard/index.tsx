@@ -6,7 +6,6 @@ import { Header } from "../../components/Header"
 import styles from './styles.module.scss'
 import { FiRefreshCcw } from "react-icons/fi"
 import { setupAPIClient } from "../../services/api"
-import { api } from "../../services/errors/apiClient"
 
 import Modal from 'react-modal'
 import { ModalOrder } from '../../components/ModalOrder'
@@ -92,7 +91,6 @@ export default function Dashboard({ orders }: HomeProps) {
         const response = await apiClient.get('/orders')
 
         setOrderList(response.data)
-
 
     }
 

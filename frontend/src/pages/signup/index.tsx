@@ -6,11 +6,10 @@ import Link from "next/link"
 
 import styles from "../../../styles/home.module.scss"
 
-import logoImg from "../../../public/logo.svg"
+import logoImg from "../../../public/logo.png"
 
 import { Input } from "../../components/ui/Input"
 import { Button } from "../../components/ui/Button"
-import { FaUserAltSlash } from "react-icons/fa"
 import { AuthContext } from '../../contexts/AuthContext'
 
 import { toast } from 'react-toastify'
