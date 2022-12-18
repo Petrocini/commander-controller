@@ -1,5 +1,5 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { 
     View, 
     Text, 
@@ -10,12 +10,18 @@ import {
 import { Feather } from '@expo/vector-icons'
 import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace'
 import { api } from '../../services/api'
+import { useSafeAreaFrame } from 'react-native-safe-area-context'
 
 type RouteDetailParams = {
     Order: {
         number: string | number;
         order_id: string;
     }
+}
+
+type CategoryProps = {
+    id: string;
+    name: string; 
 }
 
 type OrderRouteProps = RouteProp<RouteDetailParams, 'Order'>
@@ -25,6 +31,23 @@ export default function Order() {
     const route = useRoute<OrderRouteProps>()
 
     const navigation = useNavigation()
+
+    const [category, setCategory] = useState<CategoryProps[] | []>([])
+    const [categorySelected, setCategorySelected] = useState<CategoryProps>()
+
+    const [amount, setAmount] = useState('1')
+
+    useEffect(() => {
+        async function loadInfo() {
+
+            const response = await api.get('/category')
+
+            setCategory(response.data)
+            
+            setCategorySelected(response.data[0])
+
+        }
+    })
 
     async function handleCloseOrder() {
 
@@ -54,10 +77,13 @@ export default function Order() {
                 </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={style.input}>
-                <Text style={{ color: '#fff' }}> Pizza</Text>
-            </TouchableOpacity>
-
+            {category.length !== 0 && (
+                <TouchableOpacity style={style.input}>
+                    <Text style={{ color: '#fff' }}> 
+                        { categorySelected?.name }
+                    </Text>
+                </TouchableOpacity>
+            )}
 
             <TouchableOpacity style={style.input}>
                 <Text style={{ color: '#fff' }}> Pizza de calabresa</Text>
@@ -69,7 +95,9 @@ export default function Order() {
                     style={[style.input, { width: '60%', textAlign: 'center'}]}
                     placeholder='1'
                     placeholderTextColor='#f0f0f0'
-                    keyboardType='numeric'/>
+                    keyboardType='numeric'
+                    value={amount}
+                    onChangeText={setAmount}/>
             </View>
 
             <View style={style.actions}>
