@@ -1,4 +1,4 @@
-import { RouteProp, useRoute } from '@react-navigation/native'
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
 import React from 'react'
 import { 
     View, 
@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace'
+import { api } from '../../services/api'
 
 type RouteDetailParams = {
     Order: {
@@ -23,12 +24,32 @@ export default function Order() {
     
     const route = useRoute<OrderRouteProps>()
 
+    const navigation = useNavigation()
+
+    async function handleCloseOrder() {
+
+        try {
+
+            const response = await api.delete('/order', {
+                params: {
+                    order_id: route.params?.order_id
+                }
+            })
+
+            navigation.goBack()
+
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+
     return (
         <View style={style.container}>
-            
+
             <View style={style.header} >
                 <Text style={style.title}>Mesage {route.params.number}</Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={handleCloseOrder}>
                     <Feather name='trash-2' size={28} color='#ff3f4b'/>
                 </TouchableOpacity>
             </View>

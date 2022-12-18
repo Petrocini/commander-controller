@@ -4,6 +4,7 @@ import { View, Text, SafeAreaView, TouchableOpacity, TextInput, StyleSheet} from
 
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamsList } from '../../routes/app.routes';
+import { api } from '../../services/api';
 
 export default function Dashboard(){
 
@@ -17,11 +18,17 @@ export default function Dashboard(){
       return
     }
 
+    const response = await api.post('/order', {
+      table: Number(number)
+    })
+
     navigation.navigate('Order', {
       number: number,
-      order_id: 'ssssssssss'
+      order_id: response.data.id
     })
     
+    setNumber('')
+
   }
 
   return(
